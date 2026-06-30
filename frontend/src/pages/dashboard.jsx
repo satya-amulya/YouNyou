@@ -4,7 +4,7 @@ import FutureYou from "../components/FutureYou";
 import TodayPlan from "../components/TodayPlan";
 import Journey from "../components/Journey";
 import { speakWithEmotion } from "../utils/voice";
-import { startEventReminders } from "../utils/eventReminders";
+import { startEventReminders } from "../utils/EventReminders";
 
 export default function Dashboard() {
   const [goals, setGoals] = useState([]);
