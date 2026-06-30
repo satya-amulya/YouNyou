@@ -1,3 +1,5 @@
+const BASE = import.meta.env.VITE_API_URL;
+
 const VOICE_PARAMS = {
   proud:      { pitch: 1.1,  rate: 1.0,  volume: 1.0 },
   thrilled:   { pitch: 1.2,  rate: 1.05, volume: 1.0 },
@@ -31,11 +33,11 @@ export function speakWithEmotion(text, mood = "neutral", onStart, onEnd) {
 
   const params = VOICE_PARAMS[mood] || VOICE_PARAMS.neutral;
   const utter = new SpeechSynthesisUtterance(text);
-  
+
   utter.pitch = params.pitch;
   utter.rate = params.rate;
   utter.volume = params.volume;
-  
+
   // Wait for voices to load (Chrome quirk)
   const trySpeak = () => {
     const voice = getBestVoice();
@@ -53,7 +55,7 @@ export function speakWithEmotion(text, mood = "neutral", onStart, onEnd) {
 }
 
 export function fetchAndSpeak(eventType, context, mood) {
-  return fetch("http://localhost:8000/voice/event", {
+  return fetch(`${BASE}/voice/event`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ event_type: eventType, context, mood }),
@@ -67,7 +69,7 @@ export function fetchAndSpeak(eventType, context, mood) {
 
 // Morning check-in — call this when dashboard loads
 export function morningCheckin(goalId, onData) {
-  fetch(`http://localhost:8000/voice/morning/${goalId}`)
+  fetch(`${BASE}/voice/morning/${goalId}`)
     .then(r => r.json())
     .then(data => {
       // Small delay so it feels natural, not instant
